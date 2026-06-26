@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 
 import Navbar from "@/components/navbar";
 import ModalProvider from "@/components/providers/modals-provider";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const galindo = localFont({
   src: "../fonts/galindo-v26-latin-regular.woff2",
@@ -41,11 +43,14 @@ export const metadata: Metadata = {
   description: "A platform to share your projects",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const session = await auth.api.getSession({headers: await headers()});
+
   return (
     <html
       lang="en"
@@ -57,7 +62,7 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar />
+        <Navbar session= {session} />
         {children}
         <ModalProvider />
       </body>

@@ -14,20 +14,22 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signUp } from "@/lib/actions/auth-actions";
 
 /* ---------------- Schema ---------------- */
 const signUpSchema = z
   .object({
-    username: z
+    name: z
       .string()
-      .min(3, "Username must be at least 3 characters")
-      .max(20, "Username must be at most 20 characters"),
+      .min(3, "name must be at least 3 characters")
+      .max(20, "name must be at most 20 characters"),
     email: z.string().email("Enter a valid email"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPassword: z.string().min(6, "Confirm password is required"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().min(8, "Confirm password is required"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -38,6 +40,7 @@ type SignUpFormValues = z.infer<typeof signUpSchema>;
 
 export default function SignUpModal() {
   const { activeModal, closeModal, openModal } = useModalStore();
+  const router = useRouter();
 
   const isOpen = activeModal === "signup";
 
@@ -50,7 +53,7 @@ export default function SignUpModal() {
   } = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      username: "",
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -59,14 +62,15 @@ export default function SignUpModal() {
 
   /* ---------------- Submit ---------------- */
   const onSubmit = async (data: SignUpFormValues) => {
+    const { name, email, password } = data;
     try {
-      console.log("Sign Up data:", data);
+      const result = await signUp(email, password, name);
+      console.log(result);
 
-      // simulate API call
-      await new Promise((res) => setTimeout(res, 1000));
-
+      if (!result.user) throw new Error("Failed to sign up");
       reset();
       closeModal();
+      router.replace("/dashboard");
     } catch (err) {
       console.error(err);
     }
@@ -86,12 +90,12 @@ export default function SignUpModal() {
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Username */}
+          {/* name */}
           <div className="space-y-2">
-            <Label> Username </Label>
-            <Input placeholder="Username" {...register("username")} />
-            {errors.username && (
-              <p className="text-sm text-red-500">{errors.username.message}</p>
+            <Label> Name </Label>
+            <Input placeholder="name" {...register("name")} />
+            {errors.name && (
+              <p className="text-sm text-red-500">{errors.name.message}</p>
             )}
           </div>
           {/* Email */}
@@ -126,16 +130,18 @@ export default function SignUpModal() {
             <Input
               type="password"
               placeholder="••••••••"
-              {...register("password")}
+              {...register("confirmPassword")}
             />
-            {errors.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
+            {errors.confirmPassword && (
+              <p className="text-sm text-red-500">
+                {errors.confirmPassword.message}
+              </p>
             )}
           </div>
 
           {/* Submit */}
           <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? "Signing in..." : "Sign In"}
+            {isSubmitting ? "Signing up..." : "Sign Up"}
           </Button>
         </form>
 

@@ -14,20 +14,23 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signIn } from "@/lib/actions/auth-actions";
 
 /* ---------------- Schema ---------------- */
 const signInSchema = z.object({
   email: z.string().email("Enter a valid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 type SignInFormValues = z.infer<typeof signInSchema>;
 
 export default function SignInModal() {
   const { activeModal, closeModal, openModal } = useModalStore();
+  const router = useRouter();
 
   const isOpen = activeModal === "signin";
 
@@ -47,14 +50,14 @@ export default function SignInModal() {
 
   /* ---------------- Submit ---------------- */
   const onSubmit = async (data: SignInFormValues) => {
+    const { email, password } = data;
+
     try {
-      console.log("Sign in data:", data);
-
-      // simulate API call
-      await new Promise((res) => setTimeout(res, 1000));
-
+      const result = await signIn(email, password);
+      if (!result.user) throw new Error("Sign in failed");
       reset();
       closeModal();
+      router.replace("/dashboard");
     } catch (err) {
       console.error(err);
     }
