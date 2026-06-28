@@ -1,8 +1,14 @@
+'use client'
+
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useModalStore } from "@/stores/modal-store";
 
 
 export default function Hero() {
+
+  const {openModal} = useModalStore();
+
   return (
     <div className="grid gap-y-8 lg:grid-cols-2 items-center pt-20 lg:pt-32">
       <div className=" flex flex-col items-center gap-8 lg:items-start ">
@@ -14,7 +20,7 @@ export default function Hero() {
           constructive feedback from the community and help others improve their
           work.
         </p>
-        <Button className="w-fit px-6 py-6"> Get Started </Button>
+        <Button onClick={() => openModal("signin")} className="w-fit px-6 py-6 font-link cursor-pointer"> Get Started </Button>
       </div>
       <Image
         width={1319}

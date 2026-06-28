@@ -57,7 +57,7 @@ export default function SignInModal() {
       if (!result.user) throw new Error("Sign in failed");
       reset();
       closeModal();
-      router.replace("/dashboard");
+      router.replace("/home");
     } catch (err) {
       console.error(err);
     }

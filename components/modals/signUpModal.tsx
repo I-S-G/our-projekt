@@ -70,7 +70,7 @@ export default function SignUpModal() {
       if (!result.user) throw new Error("Failed to sign up");
       reset();
       closeModal();
-      router.replace("/dashboard");
+      router.replace("/home");
     } catch (err) {
       console.error(err);
     }
