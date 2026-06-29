@@ -8,13 +8,13 @@
     "start": "next start",
     "lint": "eslint"
   },
-
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "better-auth": "^1.6.21",
     "class-variance-authority": "^0.7.1",
+    "cloudinary": "^2.10.0",
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",
     "lucide-react": "^1.21.0",
