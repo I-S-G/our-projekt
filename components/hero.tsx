@@ -12,7 +12,7 @@ export default function Hero() {
   return (
     <div className="grid gap-y-8 lg:grid-cols-2 items-center pt-20 lg:pt-32">
       <div className=" flex flex-col items-center gap-8 lg:items-start ">
-        <h1 className="font-heading text-h1-mobile sm:text-h1 leading-tight">
+        <h1 className="font-title text-h1-mobile sm:text-h1 leading-tight">
           Ship Your Ideas. Get Real Feedback.
         </h1>
         <p className="font-subtitle text-dark-grey lg:max-w-[60ch] ">

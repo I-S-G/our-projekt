@@ -19,7 +19,7 @@ export default function ProjectCard(props: ProjectCardProps) {
   const { icon, name, title, image, description, likes, dislikes, comments } =
     props;
   return (
-    <div className="flex flex-col max-w-md border border-black rounded-sm px-5 py-8 gap-6">
+    <div className="flex flex-col w-full h-full max-w-[90vw] border border-black rounded-sm px-5 py-8 gap-6">
       <div className="flex items-center gap-2.5">
         {icon ? (
           <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-black">
@@ -37,7 +37,7 @@ export default function ProjectCard(props: ProjectCardProps) {
         <span>{name}</span>
       </div>
       <div className=" flex flex-col items-center">
-        <h2 className="text-center pb-2"> {title} </h2>
+        <h2 className="text-center font-title pb-2"> {title} </h2>
         <div className="w-full h-96 relative overflow-hidden rounded-sm">
           <CldImage
             src={image}
@@ -47,9 +47,9 @@ export default function ProjectCard(props: ProjectCardProps) {
             className="object-cover"
           />
         </div>
-        <p className="leading-tight pt-2"> {description} </p>
+        <p className="leading-tight self-start pt-4"> {description} </p>
       </div>
-      <div className="flex gap-6">
+      <div className="flex gap-6 mt-auto ">
         <div>
           <Heart />
           {likes}

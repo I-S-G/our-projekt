@@ -10,7 +10,7 @@ export default function Mission() {
         alt="An illustraion of two guys performing arm-wrestle handshake in a work environment"
       />
       <div className=" flex flex-col items-center gap-8 lg:items-start ">
-        <h2 className="font-heading text-h2-mobile sm:text-h2 leading-tight">
+        <h2 className="font-title text-h2-mobile sm:text-h2 leading-tight">
           More Than Just Projects
         </h2>
         <p className="font-subtitle text-dark-grey lg:max-w-[70ch] ">

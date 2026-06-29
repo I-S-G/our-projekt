@@ -39,7 +39,7 @@ export default async function Home() {
         </button>
       </div>
 
-      <div className="grid pt-10 place-items-center sm:grid-cols-2 gap-10 lg:grid-cols-3">
+      <div className="grid justify-items-center auto-rows-fr py-10 place-items-center lg:grid-cols-3 gap-10">
         {projects &&
           projects.map((project) => (
             <ProjectCard
