@@ -58,6 +58,7 @@ export default function SignInModal() {
       reset();
       closeModal();
       router.replace("/home");
+      router.refresh();
     } catch (err) {
       console.error(err);
     }

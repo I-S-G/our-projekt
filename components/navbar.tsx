@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 import { useModalStore } from "@/stores/modal-store";
 import { auth } from "@/lib/auth";
 import { signOut } from "@/lib/actions/auth-actions";
@@ -45,16 +45,25 @@ export default function Navbar({ session }: { session: Session | null }) {
       )}
       {session && (
         <div className="font-link flex gap-x-4 sm:gap-x-10 items-center">
-          <Link href={"/create"} className="cursor-pointer"> Create </Link>
-          <button onClick={onSignOut} className="cursor-pointer"> Sign out </button>
+          <Link href={"/create"} className="cursor-pointer">
+            {" "}
+            Create{" "}
+          </Link>
+          <button onClick={onSignOut} className="cursor-pointer">
+            {" "}
+            Sign out{" "}
+          </button>
           <div className="flex items-center cursor-pointer sm:gap-x-2.5">
             {session.user.image ? (
-              <Image
-                src={`/${session.user.image}`} //temporary
-                alt="profile image"
-                width={34}
-                height={34}
-              />
+              <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-black">
+                <CldImage
+                  src={session.user.image}
+                  alt="profile image"
+                  width={34}
+                  height={34}
+                  className="w-full h-full object-cover"
+                />
+              </div>
             ) : (
               <ProfileIcon />
             )}

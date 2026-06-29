@@ -71,6 +71,7 @@ export default function SignUpModal() {
       reset();
       closeModal();
       router.replace("/home");
+      router.refresh();
     } catch (err) {
       console.error(err);
     }
@@ -92,8 +93,8 @@ export default function SignUpModal() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* name */}
           <div className="space-y-2">
-            <Label> Name </Label>
-            <Input placeholder="name" {...register("name")} />
+            <Label> Display Name </Label>
+            <Input placeholder="Display Name" {...register("name")} />
             {errors.name && (
               <p className="text-sm text-red-500">{errors.name.message}</p>
             )}
