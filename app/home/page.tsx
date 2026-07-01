@@ -55,6 +55,8 @@ export default async function Home({
     orderBy,
     include: {
       author: true,
+      Likes: true,
+      Dislikes: true,
     },
   });
 
@@ -70,15 +72,13 @@ export default async function Home({
             className=" border-dark-grey border-2 pl-14 py-2.5 rounded-xs "
           />
           <Button type="submit" className="py-6 px-4 cursor-pointer">
-            {" "}
-            GO{" "}
+            GO
           </Button>
         </form>
       </div>
 
       {search && (
         <h2 className="font-title text-center text-3xl py-10">
-          {" "}
           Search Results For: {search}
         </h2>
       )}
@@ -87,6 +87,7 @@ export default async function Home({
           projects.map((project) => (
             <ProjectCard
               key={project.id}
+              projectID= {project.id}
               name={project.author.name}
               title={project.title}
               icon={project.author.image}
@@ -95,6 +96,8 @@ export default async function Home({
               likes={project.likesCount}
               dislikes={project.dislikesCount}
               comments={project.commentsCount}
+              liked= {project.Likes.find((like) => like.userID === session.user.id)? true: false}
+              disliked= {project.Dislikes.find((dislike) => dislike.userID === session.user.id)? true: false}
             />
           ))}
       </div>

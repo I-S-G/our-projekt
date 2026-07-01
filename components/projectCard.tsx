@@ -3,8 +3,10 @@
 import { ProfileIcon } from "./svgs";
 import { Heart, MessageCircle, ThumbsDown } from "lucide-react";
 import { CldImage } from "next-cloudinary";
+import { useState } from "react";
 
 type ProjectCardProps = {
+  projectID: string;
   icon?: string | null;
   name: string;
   title: string;
@@ -13,11 +15,50 @@ type ProjectCardProps = {
   likes: number;
   dislikes: number;
   comments: number;
+  liked: boolean;
+  disliked: boolean;
 };
 
 export default function ProjectCard(props: ProjectCardProps) {
-  const { icon, name, title, image, description, likes, dislikes, comments } =
-    props;
+  const {
+    projectID,
+    icon,
+    name,
+    title,
+    image,
+    description,
+    likes,
+    dislikes,
+    comments,
+    liked,
+    disliked,
+  } = props;
+
+  const [like, setLike] = useState<boolean>(liked);
+
+  const onLike = async () => {
+    setLike(true);
+
+    try {
+      await fetch(`/api/projects/${projectID}/like`, {
+        method: "POST",
+      });
+    } catch (error) {
+      console.error("An error occured liking the project:", error);
+      setLike(false);
+    }
+  };
+
+  const undoLike = async () => {
+    setLike(false);
+    try {
+      await fetch(`/api/projects/${projectID}/like`, { method: "DELETE" });
+    } catch (error) {
+      console.error("An error occured liking the project:", error);
+      setLike(true);
+    }
+  };
+
   return (
     <div className="flex flex-col w-full h-full max-w-[90vw] border border-black rounded-sm px-5 py-8 gap-6">
       <div className="flex items-center gap-2.5">
@@ -51,15 +92,23 @@ export default function ProjectCard(props: ProjectCardProps) {
       </div>
       <div className="flex gap-6 mt-auto ">
         <div>
-          <Heart />
+          {like ? (
+            <Heart fill="red" color="red" className="cursor-pointer" onClick={undoLike} />
+          ) : (
+            <Heart className="cursor-pointer" onClick={onLike} />
+          )}
           {likes}
         </div>
         <div>
-          <ThumbsDown />
+          {disliked ? (
+            <ThumbsDown fill="red" color="red" className="cursor-pointer" />
+          ) : (
+            <ThumbsDown className="cursor-pointer" />
+          )}
           {dislikes}
         </div>
         <div>
-          <MessageCircle />
+          <MessageCircle className="cursor-pointer" />
           {comments}
         </div>
       </div>
